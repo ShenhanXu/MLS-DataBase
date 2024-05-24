@@ -5,9 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import com.mls.database.rest.webservices.restfulwebservices.team.Team;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
@@ -26,13 +23,10 @@ public class Player {
     @Column(name = "position")
     private String position;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id", foreignKey = @ForeignKey(name = "FK_Team_Player"))
-    private Team team;
+    @Column(name = "team_id")
+    private int team_id;
 
-    public Player() {
-
-    }
+    public Player() {}
 
     public int getPlayer_id() {
         return player_id;
@@ -58,18 +52,18 @@ public class Player {
         this.position = position;
     }
 
-    public Team getTeam() {
-        return team;
+    public int getTeam_id() {
+        return team_id;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeam_id(int team_id) {
+        this.team_id = team_id;
     }
 
-    public Player(int player_id, String name, String position, Team team) {
+    public Player(int player_id, String name, String position, int team_id) {
         this.player_id = player_id;
         this.name = name;
         this.position = position;
-        this.team = team;
+        this.team_id = team_id;
     }
 }

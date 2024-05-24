@@ -10,7 +10,7 @@ public class PlayerStats {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int stat_id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "player_id", nullable = false)
     private Player player;
 

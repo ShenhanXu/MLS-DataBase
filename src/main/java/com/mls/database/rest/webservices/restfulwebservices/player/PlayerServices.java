@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -18,36 +18,32 @@ public class PlayerServices {
     private static int playersCount = 0;
 
 
-
     // Sample data initialization
     static {
-        Team team1 = new Team();
-        team1.setTeam_id(1);
-        team1.setName("Team A");
+ ;
 
-        Team team2 = new Team();
-        team2.setTeam_id(2);
-        team2.setName("Team B");
-
-        players.add(new Player(++playersCount, "John Doe", "Forward", team1));
-        players.add(new Player(++playersCount, "Jane Smith", "Midfielder", team2));
-        players.add(new Player(++playersCount, "Mike Johnson", "Defender", team1));
+        players.add(new Player(++playersCount, "Messi", "Forward", 1));
+        players.add(new Player(++playersCount, "Marcelo", "Mid", 2));
+        players.add(new Player(++playersCount, "Alaba", "Defender", 2));
     }
 
-    public List<Player> findByTeam(Team team) {
-        Predicate<? super Player> predicate = player -> player.getTeam().equals(team);
-        return players.stream().filter(predicate).toList();
+
+    public List<Player> findByTeam(int teamId) {
+        Predicate<? super Player> predicate = player -> player.getTeam_id() == teamId;
+        return players.stream().filter(predicate).collect(Collectors.toList());
     }
 
-    public Player addPlayer(String name, String position, Team team) {
-        Player player = new Player(++playersCount, name, position, team);
+    public Player addPlayer(String name, String position, int team_id) {
+        Player player = new Player(++playersCount, name, position, team_id);
         players.add(player);
         return player;
     }
 
     public void deleteById(int id) {
         Predicate<? super Player> predicate = player -> player.getPlayer_id() == id;
-        players.removeIf(predicate);
+
+        players.removeIf(predicate); // Remove the player
+
     }
 
     public Optional<Player> findById(int id) {
@@ -62,5 +58,10 @@ public class PlayerServices {
 
     public List<Player> getAllPlayers() {
         return new ArrayList<>(players);
+    }
+
+    public List<Player> searchByPosition(String position) {
+        Predicate<? super Player> predicate = player -> player.getPosition().toLowerCase().contains(position.toLowerCase());
+        return players.stream().filter(predicate).collect(Collectors.toList());
     }
 }

@@ -15,9 +15,8 @@ public class TeamServices {
 
     // Sample data initialization
     static {
-        teams.add(new Team(++teamsCount, "Team A"));
-        teams.add(new Team(++teamsCount, "Team B"));
-        teams.add(new Team(++teamsCount, "Team C"));
+        teams.add(new Team(++teamsCount, "FCB"));
+        teams.add(new Team(++teamsCount, "RMD"));
     }
 
     public List<Team> getAllTeams() {

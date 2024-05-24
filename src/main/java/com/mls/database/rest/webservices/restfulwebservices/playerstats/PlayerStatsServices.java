@@ -17,12 +17,12 @@ public class PlayerStatsServices {
     // Sample data initialization
     static {
         // Assuming PlayerServices is initialized and has some players
-        Player player1 = new Player(1, "John Doe", "Forward", null);
-        Player player2 = new Player(2, "Jane Smith", "Midfielder", null);
-
+        Player player1 = new Player(1, "Messi", "Forward", 1);
+        Player player2 = new Player(2, "CR7", "Forward", 2);
+        Player player3 = new Player(3, "Neymar", "Forward", 1);
         playerStatsList.add(new PlayerStats(++statsCount, player1, 10, 5, 1, 0, 180));
         playerStatsList.add(new PlayerStats(++statsCount, player2, 8, 7, 2, 0, 165));
-        playerStatsList.add(new PlayerStats(++statsCount, player1, 15, 10, 3, 1, 190));
+        playerStatsList.add(new PlayerStats(++statsCount, player3, 15, 10, 3, 1, 190));
     }
 
     public List<PlayerStats> findByPlayerId(int playerId) {

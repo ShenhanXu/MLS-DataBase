@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/players")
+
 public class PlayerResources {
 
     private final PlayerServices playerServices;
@@ -19,7 +20,7 @@ public class PlayerResources {
     }
 
     // Retrieve all players
-    @GetMapping("/all")
+    @GetMapping("")
     public List<Player> getAllPlayers() {
         return playerServices.getAllPlayers();
     }
@@ -29,15 +30,14 @@ public class PlayerResources {
     public ResponseEntity<Player> retrievePlayer(@PathVariable int id) {
         Optional<Player> player = playerServices.findById(id);
         return player.map(ResponseEntity::ok)
-                     .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Create a new player
     @PostMapping("")
     public Player createPlayer(@RequestBody Player player) {
-        return playerServices.addPlayer(player.getName(), player.getPosition(), player.getTeam());
+        return playerServices.addPlayer(player.getName(), player.getPosition(), player.getTeam_id());
     }
-
 
     // Update an existing player
     @PutMapping("/{id}")
@@ -54,4 +54,15 @@ public class PlayerResources {
         return ResponseEntity.noContent().build();
     }
 
+    // Search players by team
+    @GetMapping("/team/{team}")
+    public List<Player> searchPlayersByTeam(@PathVariable int team) {
+        return playerServices.findByTeam(team);
+    }
+
+    // Search players by position
+    @GetMapping("/position/{position}")
+    public List<Player> searchPlayersByPosition(@PathVariable String position) {
+        return playerServices.searchByPosition(position);
+    }
 }

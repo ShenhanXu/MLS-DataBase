@@ -14,7 +14,7 @@ public class TeamController {
     @Autowired
     private TeamServices teamServices;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public List<Team> getAllTeams() {
         return teamServices.getAllTeams();
     }

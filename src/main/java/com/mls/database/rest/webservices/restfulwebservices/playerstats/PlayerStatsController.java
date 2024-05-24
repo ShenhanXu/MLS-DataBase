@@ -14,7 +14,7 @@ public class PlayerStatsController {
     @Autowired
     private PlayerStatsServices playerStatsServices;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public List<PlayerStats> getAllPlayerStats() {
         return playerStatsServices.getAllPlayerStats();
     }
