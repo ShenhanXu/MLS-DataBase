@@ -20,8 +20,8 @@ public class GamesServices {
         Team team1 = new Team(1, "Team A");
         Team team2 = new Team(2, "Team B");
 
-        games.add(new Game(++gamesCount, new Date(), "Stadium A", team1, team2, 2, 1));
-        games.add(new Game(++gamesCount, new Date(), "Stadium B", team2, team1, 3, 3));
+        games.add(new Game(++gamesCount, new Date(),  team1, team2, 2, 1));
+        games.add(new Game(++gamesCount, new Date(),  team2, team1, 3, 3));
     }
 
     public List<Game> findByTeam(Team team) {
@@ -29,8 +29,8 @@ public class GamesServices {
         return games.stream().filter(predicate).toList();
     }
 
-    public Game addGame(Date date_played, String place, Team teamHome, Team teamAway, int score_home, int score_away) {
-        Game game = new Game(++gamesCount, date_played, place, teamHome, teamAway, score_home, score_away);
+    public Game addGame(Date date_played, Team teamHome, Team teamAway, int score_home, int score_away) {
+        Game game = new Game(++gamesCount, date_played, teamHome, teamAway, score_home, score_away);
         games.add(game);
         return game;
     }

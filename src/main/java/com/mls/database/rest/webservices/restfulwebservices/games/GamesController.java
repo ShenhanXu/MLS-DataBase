@@ -30,7 +30,6 @@ public class GamesController {
     public Game createGame(@RequestBody Game game) {
         return gamesServices.addGame(
                 game.getDate_played(),
-                game.getPlace(),
                 game.getTeamHome(),
                 game.getTeamAway(),
                 game.getScore_home(),
@@ -44,7 +43,7 @@ public class GamesController {
         if (existingGame.isPresent()) {
             Game game = existingGame.get();
             game.setDate_played(gameDetails.getDate_played());
-            game.setPlace(gameDetails.getPlace());
+
             game.setTeamHome(gameDetails.getTeamHome());
             game.setTeamAway(gameDetails.getTeamAway());
             game.setScore_home(gameDetails.getScore_home());

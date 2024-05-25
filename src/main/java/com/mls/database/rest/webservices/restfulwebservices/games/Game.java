@@ -15,7 +15,7 @@ public class Game {
     @Temporal(TemporalType.DATE)
     private Date date_played;
 
-    private String place;
+
 
     @ManyToOne
     @JoinColumn(name = "team_home_id", nullable = false)
@@ -31,10 +31,10 @@ public class Game {
     // Constructors
     public Game() {}
 
-    public Game(int game_id, Date date_played, String place, Team teamHome, Team teamAway, int score_home, int score_away) {
+    public Game(int game_id, Date date_played, Team teamHome, Team teamAway, int score_home, int score_away) {
         this.game_id = game_id;
         this.date_played = date_played;
-        this.place = place;
+
         this.teamHome = teamHome;
         this.teamAway = teamAway;
         this.score_home = score_home;
@@ -58,13 +58,6 @@ public class Game {
         this.date_played = date_played;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
 
     public Team getTeamHome() {
         return teamHome;
