@@ -9,6 +9,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+
+import com.mls.database.rest.webservices.restfulwebservices.team.Team;
 
 @Entity
 @Table(name = "players")
@@ -23,11 +26,19 @@ public class Player {
     @Column(name = "position")
     private String position;
 
-    @Column(name = "team_id")
-    private int team_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id", foreignKey = @ForeignKey(name = "FK_Team_Player"))
+    private Team team;
 
     public Player() {}
 
+    public Player(String name, String position, Team team) {
+        this.name = name;
+        this.position = position;
+        this.team = team;
+    }
+
+    // Getters and Setters
     public int getPlayer_id() {
         return player_id;
     }
@@ -52,18 +63,11 @@ public class Player {
         this.position = position;
     }
 
-    public int getTeam_id() {
-        return team_id;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
-    }
-
-    public Player(int player_id, String name, String position, int team_id) {
-        this.player_id = player_id;
-        this.name = name;
-        this.position = position;
-        this.team_id = team_id;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

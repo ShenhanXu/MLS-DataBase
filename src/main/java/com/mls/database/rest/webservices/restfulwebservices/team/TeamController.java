@@ -12,33 +12,31 @@ import java.util.Optional;
 public class TeamController {
 
     @Autowired
-    private TeamServices teamServices;
+    private TeamService teamService;
 
-    @GetMapping("")
+    @GetMapping
     public List<Team> getAllTeams() {
-        return teamServices.getAllTeams();
+        return teamService.getAllTeams();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Team> getTeamById(@PathVariable int id) {
-        Optional<Team> team = teamServices.findById(id);
-        return team.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Team> team = teamService.findById(id);
+        return team.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("")
-    public Team createTeam(@RequestBody Team team) {
-        return teamServices.addTeam(team.getName());
+    @PostMapping
+    public Team addTeam(@RequestBody Team team) {
+        return teamService.addTeam(team);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Team> updateTeam(@PathVariable int id, @RequestBody Team teamDetails) {
-        Optional<Team> existingTeam = teamServices.findById(id);
-        if (existingTeam.isPresent()) {
-            Team team = existingTeam.get();
-            team.setName(teamDetails.getName());
-            teamServices.updateTeam(team);
-            return ResponseEntity.ok(team);
+        Optional<Team> team = teamService.findById(id);
+        if (team.isPresent()) {
+            teamDetails.setTeam_id(id);
+            Team updatedTeam = teamService.updateTeam(teamDetails);
+            return ResponseEntity.ok(updatedTeam);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -46,7 +44,7 @@ public class TeamController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable int id) {
-        teamServices.deleteById(id);
+        teamService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,5 +1,6 @@
 package com.mls.database.rest.webservices.restfulwebservices.games;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mls.database.rest.webservices.restfulwebservices.team.Team;
 import jakarta.persistence.*;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Games")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,14 +17,14 @@ public class Game {
     @Temporal(TemporalType.DATE)
     private Date date_played;
 
-
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_home_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Team teamHome;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_away_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Team teamAway;
 
     private int score_home;
@@ -34,7 +36,6 @@ public class Game {
     public Game(int game_id, Date date_played, Team teamHome, Team teamAway, int score_home, int score_away) {
         this.game_id = game_id;
         this.date_played = date_played;
-
         this.teamHome = teamHome;
         this.teamAway = teamAway;
         this.score_home = score_home;
@@ -57,7 +58,6 @@ public class Game {
     public void setDate_played(Date date_played) {
         this.date_played = date_played;
     }
-
 
     public Team getTeamHome() {
         return teamHome;

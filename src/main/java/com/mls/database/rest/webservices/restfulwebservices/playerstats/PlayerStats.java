@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import com.mls.database.rest.webservices.restfulwebservices.player.Player;
 
 @Entity
-@Table(name = "Player_Stats")
+@Table(name = "player_stats")
 public class PlayerStats {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int stat_id;
+    private int player_id;
 
     @OneToOne
-    @JoinColumn(name = "player_id", nullable = false)
+    @MapsId
+    @JoinColumn(name = "player_id")
     private Player player;
 
     private int goals;
@@ -23,8 +24,7 @@ public class PlayerStats {
     // Constructors
     public PlayerStats() {}
 
-    public PlayerStats(int stat_id, Player player, int goals, int assists, int yellow_cards, int red_cards, int height) {
-        this.stat_id = stat_id;
+    public PlayerStats(Player player, int goals, int assists, int yellow_cards, int red_cards, int height) {
         this.player = player;
         this.goals = goals;
         this.assists = assists;
@@ -34,12 +34,12 @@ public class PlayerStats {
     }
 
     // Getters and Setters
-    public int getStat_id() {
-        return stat_id;
+    public int getPlayer_id() {
+        return player_id;
     }
 
-    public void setStat_id(int stat_id) {
-        this.stat_id = stat_id;
+    public void setPlayer_id(int player_id) {
+        this.player_id = player_id;
     }
 
     public Player getPlayer() {

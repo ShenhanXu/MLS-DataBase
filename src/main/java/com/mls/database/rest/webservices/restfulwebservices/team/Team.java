@@ -1,11 +1,10 @@
 package com.mls.database.rest.webservices.restfulwebservices.team;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mls.database.rest.webservices.restfulwebservices.player.Player;
+
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "teams")
@@ -17,12 +16,17 @@ public class Team {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "points")
+    private int points;
+
+
     // Constructors
     public Team() {}
 
-    public Team(int team_id, String name) {
+    public Team(int team_id, String name, int points) {
         this.team_id = team_id;
         this.name = name;
+        this.points = points;
     }
 
     // Getters and Setters
@@ -41,4 +45,14 @@ public class Team {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+
 }

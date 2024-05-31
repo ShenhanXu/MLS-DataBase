@@ -11,39 +11,37 @@ import java.util.Optional;
 @RequestMapping("/playerstats")
 public class PlayerStatsController {
 
-    @Autowired
-    private PlayerStatsServices playerStatsServices;
+    private final PlayerStatsService playerStatsService;
 
-    @GetMapping("")
+    @Autowired
+    public PlayerStatsController(PlayerStatsService playerStatsService) {
+        this.playerStatsService = playerStatsService;
+    }
+
+    @GetMapping
     public List<PlayerStats> getAllPlayerStats() {
-        return playerStatsServices.getAllPlayerStats();
+        return playerStatsService.getAllPlayerStats();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlayerStats> getPlayerStatsById(@PathVariable int id) {
-        Optional<PlayerStats> playerStats = playerStatsServices.findById(id);
-        return playerStats.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<PlayerStats> playerStats = playerStatsService.findById(id);
+        return playerStats.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("")
-    public PlayerStats createPlayerStats(@RequestBody PlayerStats playerStats) {
-        return playerStatsServices.addPlayerStats(playerStats.getPlayer(), playerStats.getGoals(), playerStats.getAssists(), playerStats.getYellow_cards(), playerStats.getRed_cards(), playerStats.getHeight());
+    @PostMapping
+    public ResponseEntity<PlayerStats> addPlayerStats(@RequestBody PlayerStats playerStats) {
+        PlayerStats createdPlayerStats = playerStatsService.addPlayerStats(playerStats);
+        return ResponseEntity.ok(createdPlayerStats);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PlayerStats> updatePlayerStats(@PathVariable int id, @RequestBody PlayerStats playerStatsDetails) {
-        Optional<PlayerStats> existingPlayerStats = playerStatsServices.findById(id);
-        if (existingPlayerStats.isPresent()) {
-            PlayerStats playerStats = existingPlayerStats.get();
-            playerStats.setPlayer(playerStatsDetails.getPlayer());
-            playerStats.setGoals(playerStatsDetails.getGoals());
-            playerStats.setAssists(playerStatsDetails.getAssists());
-            playerStats.setYellow_cards(playerStatsDetails.getYellow_cards());
-            playerStats.setRed_cards(playerStatsDetails.getRed_cards());
-            playerStats.setHeight(playerStatsDetails.getHeight());
-            playerStatsServices.updatePlayerStats(playerStats);
-            return ResponseEntity.ok(playerStats);
+        Optional<PlayerStats> playerStats = playerStatsService.findById(id);
+        if (playerStats.isPresent()) {
+            playerStatsDetails.setPlayer_id(id);
+            PlayerStats updatedPlayerStats = playerStatsService.updatePlayerStats(playerStatsDetails);
+            return ResponseEntity.ok(updatedPlayerStats);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -51,7 +49,12 @@ public class PlayerStatsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlayerStats(@PathVariable int id) {
-        playerStatsServices.deleteById(id);
-        return ResponseEntity.noContent().build();
+        Optional<PlayerStats> playerStats = playerStatsService.findById(id);
+        if (playerStats.isPresent()) {
+            playerStatsService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
